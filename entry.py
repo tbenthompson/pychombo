@@ -1,5 +1,5 @@
-from mc import run
+from main_cython import run
 
 
 if __name__ == "__main__":
-    run()
+    run(dict(a = 1))

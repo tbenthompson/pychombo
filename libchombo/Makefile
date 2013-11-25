@@ -10,12 +10,12 @@ CT=2d.Linux.64.g++.gfortran.DEBUG
 
 
 CC=g++
-STARTCFLAGS=-g -pedantic -ggdb -ftemplate-depth-25 -m64
+STARTCFLAGS=-g -pedantic -Wall -ggdb  -Wno-long-long -Wno-sign-compare -Wno-deprecated -ftemplate-depth-25  -Wno-invalid-offsetof -Wno-variadic-macros -m64 -Wno-unused-but-set-variable
 MORECFLAGS=-fPIC 
 CFLAGS= $(STARTCFLAGS) $(MORECFLAGS)
-INCLUDE_FOLDERS=-I$(CHOMBO_HOME)/include -I/usr/include/openmpi -I./srcAdvectDiffuse
+INCLUDE_FOLDERS=-I$(CHOMBO_HOME)/include -I/usr/include/openmpi -I./srcAdvectDiffuse -I/usr/include/python2.7
 LDFLAGS=-shared  $(STARTCFLAGS) -L$(CHOMBO_HOME) -lamrelliptic$(CT) -lamrtimedependent$(CT) -lamrtools$(CT) -lboxtools$(CT) -lbasetools$(CT)  -L/usr/lib/x86_64-linux-gnu -lhdf5 -lz -lgfortran -lm
-SOURCES=glue.cpp 
+SOURCES=glue.cpp AMRLevelGlue.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=libchombo.so
 
@@ -29,5 +29,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDE_FOLDERS) -c $< -o $@
 
 clean:
-	rm $(OBJECTS)
-	rm $(EXECUTABLE)
+	rm $(OBJECTS) $(EXECUTABLE)
